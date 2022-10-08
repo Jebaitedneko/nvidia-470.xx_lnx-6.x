@@ -27,6 +27,7 @@
  * present simplifies nvidia-drm.ko source.
  */
 
+#include <drm/drm_framebuffer.h>
 #include "nvidia-drm-helper.h"
 
 #include "nvmisc.h"
