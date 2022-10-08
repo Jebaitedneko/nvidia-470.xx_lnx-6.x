@@ -169,7 +169,7 @@ NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_gem_object_get
 NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_gem_object_put_unlocked
 NV_CONFTEST_FUNCTION_COMPILE_TESTS += set_close_on_exec
 NV_CONFTEST_FUNCTION_COMPILE_TESTS += dma_set_coherent_mask
-NV_CONFTEST_FUNCTION_COMPILE_TESTS += acpi_bus_get_device
+NV_CONFTEST_FUNCTION_COMPILE_TESTS += get_task_ioprio
 
 NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_gpl_of_node_to_nid
 NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_gpl_sme_active
@@ -189,7 +189,6 @@ NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_present_dram_clk_to_mc_clk
 NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_present_get_dram_num_channels
 NV_CONFTEST_SYMBOL_COMPILE_TESTS += is_export_symbol_present_tegra_dram_types
 
-NV_CONFTEST_TYPE_COMPILE_TESTS += acpi_op_remove
 NV_CONFTEST_TYPE_COMPILE_TESTS += file_operations
 NV_CONFTEST_TYPE_COMPILE_TESTS += file_inode
 NV_CONFTEST_TYPE_COMPILE_TESTS += kuid_t

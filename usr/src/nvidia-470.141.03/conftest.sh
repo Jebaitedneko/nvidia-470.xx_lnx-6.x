@@ -703,45 +703,6 @@ compile_test() {
             compile_check_conftest "$CODE" "NV_HASH__REMAP_4K_PFN_PRESENT" "" "functions"
         ;;
 
-        acpi_op_remove)
-            #
-            # Determine the number of arguments to pass to the
-            # 'acpi_op_remove' routine.
-            #
-            # Second parameter removed by commit 51fac8388a03
-            # ("ACPI: Remove useless type argument of driver .remove()
-            # operation") in v3.9
-            #
-            echo "$CONFTEST_PREAMBLE
-            #include <linux/acpi.h>
-
-            acpi_op_remove conftest_op_remove_routine;
-
-            int conftest_acpi_device_ops_remove(struct acpi_device *device) {
-                return conftest_op_remove_routine(device);
-            }" > conftest$$.c
-
-            $CC $CFLAGS -c conftest$$.c > /dev/null 2>&1
-            rm -f conftest$$.c
-
-            if [ -f conftest$$.o ]; then
-                rm -f conftest$$.o
-                echo "#define NV_ACPI_DEVICE_OPS_REMOVE_ARGUMENT_COUNT 1" | append_conftest "types"
-                return
-            fi
-
-            CODE="
-            #include <linux/acpi.h>
-
-            acpi_op_remove conftest_op_remove_routine;
-
-            int conftest_acpi_device_ops_remove(struct acpi_device *device, int type) {
-                return conftest_op_remove_routine(device, type);
-            }"
-
-            compile_check_conftest "$CODE" "NV_ACPI_DEVICE_OPS_REMOVE_ARGUMENT_COUNT" "2" "types"
-        ;;
-
         acquire_console_sem)
             #
             # Determine if the acquire_console_sem() function
@@ -4738,22 +4699,6 @@ compile_test() {
             compile_check_conftest "$CODE" "NV_DMA_SET_COHERENT_MASK_PRESENT" "" "functions"
         ;;
 
-        acpi_bus_get_device)
-            #
-            # Determine if the acpi_bus_get_device() function is present
-            #
-            # acpi_bus_get_device() was removed by commit ac2a3feefad5
-            # ("ACPI: bus: Eliminate acpi_bus_get_device()") in
-            # v5.18-rc2 (2022-04-05).
-            #
-            CODE="
-            #include <linux/acpi.h>
-            int conftest_acpi_bus_get_device(void) {
-                return acpi_bus_get_device();
-            }"
-            compile_check_conftest "$CODE" "NV_ACPI_BUS_GET_DEVICE_PRESENT" "" "functions"
-        ;;
-
         dma_resv_add_fence)
             #
             # Determine if the dma_resv_add_fence() function is present.
@@ -4813,6 +4758,23 @@ compile_test() {
             }"
 
             compile_check_conftest "$CODE" "NV_RESERVATION_OBJECT_RESERVE_SHARED_HAS_NUM_FENCES_ARG" "" "types"
+        ;;
+
+        get_task_ioprio)
+            #
+            # Determine if the __get_task_ioprio() function is present.
+            #
+            # __get_task_ioprio was added by commit 893e5d32d583
+            # ("block: Generalize get_current_ioprio() for any task") for
+            # v5.20 linux-next (2022-06-23).
+            #
+            CODE="
+            #include <linux/ioprio.h>
+            void conftest_get_task_ioprio(void) {
+                __get_task_ioprio();
+            }"
+
+            compile_check_conftest "$CODE" "NV_GET_TASK_IOPRIO_PRESENT" "" "functions"
         ;;
 
         # When adding a new conftest entry, please use the correct format for
